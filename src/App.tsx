@@ -69,7 +69,7 @@ const App: React.FC = () => {
 
   return (
     <div className="container">
-      <h1>Bitcoin Price Percentage Difference Time Series</h1>
+      <h1>Bitcoin Price Bet End-2024: Bob vs World</h1>
       <div className="chart-container">
         {chartData && <Line data={chartData} />}
       </div>
