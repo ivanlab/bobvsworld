@@ -16,11 +16,23 @@ body {
   border-radius: 8px;
 }
 
-h1 {
+h1, h2 {
   text-align: center;
   color: #333;
 }
 
 .chart-container {
   margin: 20px 0;
+}
+
+.pie-chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: strecht;
+  margin: 10% 0;
+}
+
+.pie-chart {
+  width: 100px; /* Adjust the size as needed */
+  height: 100px; /* Adjust the size as needed */
 }

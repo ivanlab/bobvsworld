@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Line } from 'react-chartjs-2';
+import { Line, Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
 import './index.css';
 
 const App: React.FC = () => {
   const [chartData, setChartData] = useState<any>(null);
+  const [pieData, setPieData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,29 +27,60 @@ const App: React.FC = () => {
         const aliceSeries = percentageDifference(prices, 500000);
         const ivanSeries = percentageDifference(prices, 120000);
 
+        const currentBob = bobSeries[bobSeries.length - 1];
+        const currentAlice = aliceSeries[aliceSeries.length - 1];
+        const currentIvan = ivanSeries[ivanSeries.length - 1];
+
         setChartData({
           labels: dates,
           datasets: [
             {
-              label: `BOB (${bobSeries[bobSeries.length - 1].toFixed(2)}%)`,
+              label: `BOB (${currentBob.toFixed(2)}%)`,
               data: bobSeries,
               borderColor: 'rgba(75, 192, 192, 1)',
               fill: false,
             },
             {
-              label: `AL-ice (${aliceSeries[aliceSeries.length - 1].toFixed(2)}%)`,
+              label: `AL-ice (${currentAlice.toFixed(2)}%)`,
               data: aliceSeries,
               borderColor: 'rgba(153, 102, 255, 1)',
               fill: false,
             },
             {
-              label: `IVAN (${ivanSeries[ivanSeries.length - 1].toFixed(2)}%)`,
+              label: `IVAN (${currentIvan.toFixed(2)}%)`,
               data: ivanSeries,
               borderColor: 'rgba(255, 159, 64, 1)',
               fill: false,
             },
           ],
         });
+
+        const total = currentBob + currentAlice + currentIvan;
+
+        setPieData({
+          labels: [
+            `BOB (${((currentBob / total) * 100).toFixed(2)}%)`,
+            `AL-ice (${((currentAlice / total) * 100).toFixed(2)}%)`,
+            `IVAN (${((currentIvan / total) * 100).toFixed(2)}%)`,
+          ],
+          datasets: [
+            {
+              data: [currentBob, currentAlice, currentIvan],
+              backgroundColor: [
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)',
+              ],
+              borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+              ],
+              borderWidth: 1,
+            },
+          ],
+        });
+
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch Bitcoin prices');
@@ -68,10 +100,18 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="container">
-      <h1>Bitcoin Price Bet End-2024: Bob vs World</h1>
-      <div className="chart-container">
-        {chartData && <Line data={chartData} />}
+    <div>
+      <div className="container">
+        <h1>Bitcoin Price Percentage Difference Time Series</h1>
+        <div className="chart-container">
+          {chartData && <Line data={chartData} />}
+        </div>
+      </div>
+      <div className="container">
+        <h2>Current Percentage Differences</h2>
+        <div className="pie-chart-container">
+          {pieData && <Pie data={pieData} className="pie-chart" />}
+        </div>
       </div>
     </div>
   );
