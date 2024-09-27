@@ -31,7 +31,7 @@ jobs:
       - name: Set up Docker Buildx.
         uses: docker/setup-buildx-action@v2
 
-  Login-Metadata-Build-Upload:
+  Docker-Login:
     needs: Install-Tools
     runs-on: ubuntu-latest
     steps:
@@ -62,7 +62,10 @@ jobs:
         run: npm run build
       - run: echo "Build Process completed successfully."
 
-
+  Docker-meta:
+    needs: Install-Tools
+    runs-on: ubuntu-latest
+    steps:
       - run: echo "Extracting metadata for Backend image push (*Release specific tag*)."
       - name: Extract metadata (tags, labels) for Docker.
         id: meta
@@ -74,7 +77,7 @@ jobs:
       - run: echo "Metadata Extraction completed successfully."
 
   Upload:
-    needs: Dependencies-Build
+    needs: Docker-meta
     runs-on: ubuntu-latest
     steps:
       - run: echo "Last step to push tagged image to Nelium DockerHub."
@@ -83,7 +86,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.IMAGE_TAGS }}
+          tags: latest
 
       - run: echo "Docker Build & Upload completed successfully."
       
