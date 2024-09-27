@@ -82,8 +82,7 @@ jobs:
           context: .
           push: true
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ github.sha }},
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
+            ivanlab/${{ github.event.repository.name }}:latest
 
 
       - run: echo "Docker Build & Upload completed successfully."
