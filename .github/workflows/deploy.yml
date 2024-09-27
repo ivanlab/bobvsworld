@@ -42,6 +42,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - run: echo "Docker Login completed successfully."
+  Docker-meta:
+    needs: Install-Tools
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Extracting metadata for Backend image push (*Release specific tag*)."
+      - name: Extract metadata (tags, labels) for Docker.
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: ${{ env.IMAGE_TAGS }}
+
+      - run: echo "Metadata Extraction completed successfully."
 
   Dependencies-Build:
     needs: Install-Tools
@@ -62,24 +75,6 @@ jobs:
         run: npm run build
       - run: echo "Build Process completed successfully."
 
-  Docker-meta:
-    needs: Install-Tools
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Extracting metadata for Backend image push (*Release specific tag*)."
-      - name: Extract metadata (tags, labels) for Docker.
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: ${{ env.IMAGE_TAGS }}
-
-      - run: echo "Metadata Extraction completed successfully."
-
-  Upload:
-    needs: Dependencies-Build
-    runs-on: ubuntu-latest
-    steps:
       - run: echo "Last step to push tagged image to Nelium DockerHub."
       - name: Build & Push Docker image.
         uses: docker/build-push-action@v5
@@ -87,10 +82,6 @@ jobs:
           context: .
           push: true
           tags: latest
-
       - run: echo "Docker Build & Upload completed successfully."
-      
 
-      - run: echo "Upload Process completed successfully."
-        
       - run: echo "This job's status is ${{ job.status }}."
