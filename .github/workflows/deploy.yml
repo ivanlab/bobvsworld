@@ -41,7 +41,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - run: echo "Docker Login completed successfully."
 
-  Dependencies-Build-Compress-Upload:
+  Dependencies-Build:
     needs: Install-Tools
     runs-on: ubuntu-latest
     steps:
@@ -71,6 +71,10 @@ jobs:
 
       - run: echo "Metadata Extraction completed successfully."
 
+  Upload:
+    needs: Install-Tools
+    runs-on: ubuntu-latest
+    steps:
       - run: echo "Last step to push tagged image to Nelium DockerHub."
       - name: Build & Push Docker image.
         uses: docker/build-push-action@v5
