@@ -10,6 +10,17 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const calculateWeightedValues = (series1: number[], series2: number[], series3: number[]) => {
+    return series1.map((_, i) => {
+      const total = series1[i] + series2[i] + series3[i];
+      return [
+        (series1[i] / total) * 100,
+        (series2[i] / total) * 100,
+        (series3[i] / total) * 100,
+      ];
+    });
+  };
+
   useEffect(() => {
     const fetchBitcoinPrices = async () => {
       try {
@@ -27,28 +38,34 @@ const App: React.FC = () => {
         const aliceSeries = percentageDifference(prices, 500000);
         const ivanSeries = percentageDifference(prices, 120000);
 
-        const currentBob = bobSeries[bobSeries.length - 1];
-        const currentAlice = aliceSeries[aliceSeries.length - 1];
-        const currentIvan = ivanSeries[ivanSeries.length - 1];
+        const weightedValues = calculateWeightedValues(bobSeries, aliceSeries, ivanSeries);
+
+        const weightedBobSeries = weightedValues.map(values => values[0]);
+        const weightedAliceSeries = weightedValues.map(values => values[1]);
+        const weightedIvanSeries = weightedValues.map(values => values[2]);
+
+        const currentBob = weightedBobSeries[weightedBobSeries.length - 1];
+        const currentAlice = weightedAliceSeries[weightedAliceSeries.length - 1];
+        const currentIvan = weightedIvanSeries[weightedIvanSeries.length - 1];
 
         setChartData({
           labels: dates,
           datasets: [
             {
               label: `BOB (${currentBob.toFixed(2)}%)`,
-              data: bobSeries,
+              data: weightedBobSeries,
               borderColor: 'rgba(75, 192, 192, 1)',
               fill: false,
             },
             {
               label: `AL-ice (${currentAlice.toFixed(2)}%)`,
-              data: aliceSeries,
+              data: weightedAliceSeries,
               borderColor: 'rgba(153, 102, 255, 1)',
               fill: false,
             },
             {
-              label: `IVAN (${currentIvan.toFixed(2)}%)`,
-              data: ivanSeries,
+              label: `Ivan (${currentIvan.toFixed(2)}%)`,
+              data: weightedIvanSeries,
               borderColor: 'rgba(255, 159, 64, 1)',
               fill: false,
             },
@@ -102,13 +119,13 @@ const App: React.FC = () => {
   return (
     <div>
       <div className="container">
-        <h1>Bitcoin Price Bet End 2024: Bob vs World</h1>
+        <h1>Bitcoin Price Bet 2024 Probabilities: Bob vs World</h1>
         <div className="chart-container">
           {chartData && <Line data={chartData} />}
         </div>
       </div>
       <div className="container">
-        <h2>Current Winner Probability</h2>
+        <h2>Current Probability</h2>
         <div className="pie-chart-container">
           {pieData && <Pie data={pieData} className="pie-chart" />}
         </div>
