@@ -102,13 +102,13 @@ const App: React.FC = () => {
   return (
     <div>
       <div className="container">
-        <h1>Bitcoin Price Percentage Difference Time Series</h1>
+        <h1>Bitcoin Price Bet End 2024: Bob vs World</h1>
         <div className="chart-container">
           {chartData && <Line data={chartData} />}
         </div>
       </div>
       <div className="container">
-        <h2>Current Percentage Differences</h2>
+        <h2>Current Winner Probability</h2>
         <div className="pie-chart-container">
           {pieData && <Pie data={pieData} className="pie-chart" />}
         </div>
