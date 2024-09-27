@@ -34,9 +34,13 @@ const App: React.FC = () => {
           return prices.map(price => 100 - Math.abs((price - reference) / reference * 100));
         };
 
-        const bobSeries = percentageDifference(prices, 60000);
-        const aliceSeries = percentageDifference(prices, 500000);
-        const ivanSeries = percentageDifference(prices, 120000);
+        const bobReference = 60000; // Example reference value for Series 1
+        const aliceReference = 500000; // Example reference value for Series 2
+        const ivanReference = 120000; // Example reference value for Series 3
+
+        const bobSeries = percentageDifference(prices, bobReference);
+        const aliceSeries = percentageDifference(prices, aliceReference);
+        const ivanSeries = percentageDifference(prices, ivanReference);
 
         const weightedValues = calculateWeightedValues(bobSeries, aliceSeries, ivanSeries);
 
