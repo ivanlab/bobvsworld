@@ -2,8 +2,10 @@ name: Build and Push Frontend Preproduction Built Code automatically docker hub 
 run-name: ${{ github.actor }} is building & pushing to Prod 
 
 on:
-  release: 
-    types: [published]
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
   
 jobs:
   Checkout-Code:
