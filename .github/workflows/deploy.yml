@@ -77,7 +77,7 @@ jobs:
       - run: echo "Metadata Extraction completed successfully."
 
   Upload:
-    needs: Docker-meta
+    needs: Dependencies-Build
     runs-on: ubuntu-latest
     steps:
       - run: echo "Last step to push tagged image to Nelium DockerHub."
