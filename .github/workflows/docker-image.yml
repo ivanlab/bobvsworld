@@ -66,8 +66,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}
-          tags: ${{ env.BACKEND_IMAGE_TAGS }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: ${{ env.IMAGE_TAGS }}
 
       - run: echo "Metadata Extraction completed successfully."
 
