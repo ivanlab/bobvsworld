@@ -80,7 +80,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
 
       - run: echo "Docker Build & Upload completed successfully."
-      
 
       - run: echo "Upload Process completed successfully."
         
