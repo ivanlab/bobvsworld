@@ -156,7 +156,7 @@ const App: React.FC = () => {
         </div>
       </div>
       <div className="container">
-        <h2>Take over chart</h2>
+        <h2>Take over Bob Chart</h2>
         <div className="chart-container">
           {thirdChartData && <Line data={thirdChartData} />}
         </div>
