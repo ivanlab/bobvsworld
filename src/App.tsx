@@ -34,13 +34,9 @@ const App: React.FC = () => {
           return prices.map(price => 100 - Math.abs((price - reference) / reference * 100));
         };
 
-        const bobReference = 60000; // Example reference value for Series 1
-        const aliceReference = 500000; // Example reference value for Series 2
-        const ivanReference = 120000; // Example reference value for Series 3
-
-        const bobSeries = percentageDifference(prices, bobReference);
-        const aliceSeries = percentageDifference(prices, aliceReference);
-        const ivanSeries = percentageDifference(prices, ivanReference);
+        const bobSeries = percentageDifference(prices, 60000);
+        const aliceSeries = percentageDifference(prices, 500000);
+        const ivanSeries = percentageDifference(prices, 120000);
 
         const weightedValues = calculateWeightedValues(bobSeries, aliceSeries, ivanSeries);
 
@@ -68,7 +64,7 @@ const App: React.FC = () => {
               fill: false,
             },
             {
-              label: `Ivan (${currentIvan.toFixed(2)}%)`,
+              label: `IVAN (${currentIvan.toFixed(2)}%)`,
               data: weightedIvanSeries,
               borderColor: 'rgba(255, 159, 64, 1)',
               fill: false,
@@ -102,6 +98,28 @@ const App: React.FC = () => {
           ],
         });
 
+        // New series calculations
+        const bobVsIvanSeries = weightedBobSeries.map((value, index) => value - weightedIvanSeries[index]);
+        const aliceVsIvanSeries = weightedIvanSeries.map((value, index) => value - weightedAliceSeries[index]);
+
+        const thirdChartData = {
+          labels: dates,
+          datasets: [
+            {
+              label: 'Bob vs Ivan',
+              data: bobVsIvanSeries,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            },
+            {
+              label: 'AL-ice vs Ivan',
+              data: aliceVsIvanSeries,
+              borderColor: 'rgba(153, 102, 255, 1)',
+              backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            },
+          ],
+        };
+
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch Bitcoin prices');
@@ -123,15 +141,21 @@ const App: React.FC = () => {
   return (
     <div>
       <div className="container">
-        <h1>Bitcoin Price Bet 2024 Probabilities: Bob vs World</h1>
+        <h1>Bitcoin Price Percentage Difference Time Series</h1>
         <div className="chart-container">
           {chartData && <Line data={chartData} />}
         </div>
       </div>
       <div className="container">
-        <h2>Current Probability</h2>
+        <h2>Current Percentage Differences</h2>
         <div className="pie-chart-container">
           {pieData && <Pie data={pieData} className="pie-chart" />}
+        </div>
+      </div>
+      <div className="container">
+        <h2>Comparison Series</h2>
+        <div className="chart-container">
+          {thirdChartData && <Line data={thirdChartData} />}
         </div>
       </div>
     </div>
