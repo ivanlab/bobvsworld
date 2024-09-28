@@ -101,7 +101,7 @@ const App: React.FC = () => {
 
         // New series calculations
         const bobVsIvanSeries = weightedBobSeries.map((value, index) => value - weightedIvanSeries[index]);
-        const aliceVsIvanSeries = weightedIvanSeries.map((value, index) => value - weightedAliceSeries[index]);
+        const aliceVsIvanSeries = weightedAliceSeries.map((value, index) => value - weightedIvanSeries[index]);
 
         const thirdChartData = {
           labels: dates,
@@ -113,7 +113,7 @@ const App: React.FC = () => {
               backgroundColor: 'rgba(75, 192, 192, 0.2)',
             },
             {
-              label: 'AL-ice vs Ivan',
+              label: 'Ivan vs AL-ice',
               data: aliceVsIvanSeries,
               borderColor: 'rgba(153, 102, 255, 1)',
               backgroundColor: 'rgba(153, 102, 255, 0.2)',
