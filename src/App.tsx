@@ -144,19 +144,19 @@ const App: React.FC = () => {
   return (
     <div>
       <div className="container">
-        <h1>Bitcoin Price Percentage Difference Time Series</h1>
+        <h1>Bob vs World 2024 Bet</h1>
         <div className="chart-container">
           {chartData && <Line data={chartData} />}
         </div>
       </div>
       <div className="container">
-        <h2>Current Percentage Differences</h2>
+        <h2>Current Bet Options</h2>
         <div className="pie-chart-container">
           {pieData && <Pie data={pieData} className="pie-chart" />}
         </div>
       </div>
       <div className="container">
-        <h2>Comparison Series</h2>
+        <h2>Take over chart</h2>
         <div className="chart-container">
           {thirdChartData && <Line data={thirdChartData} />}
         </div>
