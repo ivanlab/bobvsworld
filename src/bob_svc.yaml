@@ -21,4 +21,4 @@ spec:
   selector:
     app: bobvsworld
   sessionAffinity: None
-  type: LoadBalancer
+  type: ClusterIP
