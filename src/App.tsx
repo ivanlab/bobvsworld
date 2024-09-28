@@ -7,6 +7,7 @@ import './index.css';
 const App: React.FC = () => {
   const [chartData, setChartData] = useState<any>(null);
   const [pieData, setPieData] = useState<any>(null);
+  const [thirdChartData, setThirdChartData] = useState<any>(null); // Added state for thirdChartData
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -119,6 +120,8 @@ const App: React.FC = () => {
             },
           ],
         };
+
+        setThirdChartData(thirdChartData); // Set the thirdChartData state
 
         setLoading(false);
       } catch (err) {
